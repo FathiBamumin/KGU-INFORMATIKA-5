@@ -1,73 +1,165 @@
-# Welcome to your Lovable project
+# Kelas Guru v4
 
-## Project info
+Aplikasi web untuk manajemen kelas dengan fitur lengkap untuk guru dan siswa.
 
-**URL**: https://lovable.dev/projects/7c19c507-1d99-4385-8c17-b37a5a8b4966
+## 🔐 Session Management 
 
-## How can I edit this code?
+**Session akan tetap aktif sampai logout manual**
 
-There are several ways of editing your application.
+- Session disimpan di localStorage dan memory browser
+- Saat halaman di-refresh, user tetap login
+- Session hanya hilang saat:
+  - User klik logout manual
+  - User clear browser data
+  - Session expired (invalid credentials)
 
-**Use Lovable**
+## 🚀 Fitur
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7c19c507-1d99-4385-8c17-b37a5a8b4966) and start prompting.
+### Untuk Guru:
+- ✅ Dashboard dengan overview statistik
+- ✅ Manajemen kelas (CRUD) - **Functional**
+- ✅ Manajemen siswa (CRUD) - **Functional**
+- ✅ Tugas dan penilaian
+- ✅ Presensi siswa
+- ✅ Jurnal pembelajaran
+- ✅ Kegiatan/event
+- ✅ Bank soal
+- ✅ Sistem gamifikasi
 
-Changes made via Lovable will be committed automatically to this repo.
+### Untuk Siswa:
+- ✅ Dashboard personal dengan tampilan RPG
+- ✅ Melihat tugas dan nilai
+- ✅ Tracking progress belajar
+- ✅ Sistem gamifikasi (poin, level, badge)
 
-**Use your preferred IDE**
+## 🔧 Setup
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Clone dan Install**
+   ```bash
+   cd kelasguru-v4
+   npm install
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. **Google Apps Script Backend**
+   - Copy kode dari `code.gs` ke Google Apps Script baru
+   - Deploy sebagai web app dengan akses "Anyone with the link"
+   - Update `API_URL` di `src/lib/api.ts` dengan URL deploy Anda
 
-Follow these steps:
+3. **Google Spreadsheet Database**
+   - Buat Google Spreadsheet baru
+   - Update `SPREADSHEET_ID` di `code.gs`
+   - Jalankan function `setupSpreadsheets()` untuk membuat struktur database
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 👤 Login Demo
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Untuk testing, gunakan akun demo:
 
-# Step 3: Install the necessary dependencies.
-npm i
+**Guru:**
+- Username: `guru1`
+- Password: `pass123`
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+**Siswa:**
+- Username: `belva`
+- Password: `pass123`
+
+## 📁 Struktur Database
+
+Database menggunakan Google Spreadsheet dengan 10 sheet:
+
+1. **Users** - Data user umum
+2. **Classes** - Data kelas
+3. **Students** - Data siswa per kelas
+4. **Assignments** - Data tugas
+5. **Grades** - Data nilai
+6. **Attendance** - Data presensi
+7. **Journals** - Jurnal pembelajaran
+8. **Events** - Kegiatan/event
+9. **QuestionBank** - Bank soal
+10. **Gamification** - Data gamifikasi
+
+## 🔒 Security & CORS
+
+- Menggunakan URLSearchParams untuk menghindari CORS issues
+- Tidak menggunakan custom headers
+- Session management persistent dengan localStorage
+- Auto-logout hanya pada invalid credentials
+
+## 🎨 Tech Stack
+
+- **Frontend:** React + TypeScript + Vite
+- **UI:** shadcn/ui + TailwindCSS
+- **Backend:** Google Apps Script
+- **Database:** Google Spreadsheet
+- **Routing:** React Router v6
+
+## 📝 API Endpoints
+
+Backend Google Apps Script mendukung endpoint berikut:
+
+### Authentication
+- `login` - Login user
+- `verifyStudents` - Verifikasi data siswa (admin)
+
+### Classes (Guru)
+- `getClasses` - Get daftar kelas
+- `addClass` - Tambah kelas baru
+- `updateClass` - Update kelas
+- `deleteClass` - Hapus kelas
+
+### Students (Guru)
+- `getStudents` - Get siswa per kelas
+- `addStudent` - Tambah siswa ke kelas
+- `createStudent` - Buat siswa baru
+- `updateStudent` - Update data siswa
+- `deleteStudent` - Hapus siswa
+
+### Dan lainnya untuk Assignments, Grades, Attendance, Journals, Events, Questions, Gamification
+
+## 🚀 Development
+
+```bash
+# Development server
 npm run dev
+
+# Build untuk production
+npm run build
+
+# Preview build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## 📱 Responsive Design
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Desktop-first design untuk guru (dashboard profesional)
+- Mobile-responsive dengan hamburger menu
+- Student dashboard dengan tampilan modern/RPG
 
-**Use GitHub Codespaces**
+## 🎮 Gamifikasi
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Sistem gamifikasi terintegrasi:
+- Poin dan level untuk siswa
+- Badge dan achievement system
+- Leaderboard per kelas
+- Progress tracking
 
-## What technologies are used for this project?
+## 📋 Halaman yang Tersedia
 
-This project is built with:
+### Guru Dashboard:
+- ✅ `/guru` - Dashboard utama
+- ✅ `/guru/kelas` - **Manajemen Kelas (CRUD Lengkap)**
+- ✅ `/guru/siswa` - **Manajemen Siswa (CRUD Lengkap)**
+- 🔄 `/guru/tugas` - Coming Soon
+- 🔄 `/guru/nilai` - Coming Soon
+- 🔄 `/guru/presensi` - Coming Soon
+- 🔄 `/guru/jurnal` - Coming Soon
+- 🔄 `/guru/kegiatan` - Coming Soon
+- 🔄 `/guru/bank-soal` - Coming Soon
+- 🔄 `/guru/gamifikasi` - Coming Soon
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Student Dashboard:
+- 🔄 `/siswa` - Dashboard RPG (Coming Soon)
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/7c19c507-1d99-4385-8c17-b37a5a8b4966) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Kelas Guru v4 - Built with ❤️ for education* 
